@@ -1,0 +1,23 @@
+<mat-toolbar color="accent">
+  <span class="toolbar-title">FindWords</span>
+</mat-toolbar>
+
+<div class="example-container">
+  <mat-form-field hintLabel="Somente uma palavra por campo">
+    <mat-label>Digite uma palavra</mat-label>
+    <input matInput #input maxlength="20" placeholder="Ex. árvore">
+    <mat-hint align="end">{{input.value.length}}/20</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>E | OU | NÃO</mat-label>
+    <mat-select>
+      <mat-option value="option">Option</mat-option>
+    </mat-select>
+    <mat-hint align="end">Escolha um operador lógico</mat-hint>
+  </mat-form-field>
+
+</div>
+
+<!-- <button mat-raised-button color="accent">Basic</button> -->
+<app-arquivos></app-arquivos>
