@@ -1,33 +1,40 @@
 <mat-card>
-  <mat-card-content>
-    <div class="mat-elevation-z8">
+  <mat-card-content class="table-items">
+    <div [ngClass]="{ 'ocultar-elemento': !isLoading }">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div [ngClass]="{ 'ocultar-elemento': isLoading }">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="documentos">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let doc">{{ doc.id }}</td>
+          </ng-container>
 
-      <table mat-table [dataSource]="documentos">
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef>Nome do arquivo</th>
+            <td mat-cell *matCellDef="let doc">{{ doc.nomeArquivo }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef> ID </th>
-          <td mat-cell *matCellDef="let doc"> {{doc.id}} </td>
-        </ng-container>
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef>Baixar arquivo</th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-raised-button color="accent">Baixar</button>
+            </td>
+          </ng-container>
 
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef> Nome do arquivo </th>
-          <td mat-cell *matCellDef="let doc"> {{doc.nomeArquivo}} </td>
-        </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
 
-        <ng-container matColumnDef="download">
-          <th mat-header-cell *matHeaderCellDef> Baixar arquivo </th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-raised-button color="accent">Baixar</button> </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                    showFirstLastButtons
-                    aria-label="Selecione o número de páginas para ver os resultados">
-      </mat-paginator>
+        <mat-paginator
+          [length]="page?.totalElementos ?? 5"
+          [pageSize]="5"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+        >
+        </mat-paginator>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

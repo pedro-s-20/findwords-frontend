@@ -1,3 +1,17 @@
 table {
   width: 100%;
 }
+
+.table-items{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-column-id, .mat-column-nome, .mat-column-download {
+  text-align: center;
+}
+
+.ocultar-elemento {
+  visibility: hidden;
+}
