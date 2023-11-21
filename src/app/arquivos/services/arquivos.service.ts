@@ -19,6 +19,6 @@ export class ArquivosService {
       .set('tamanho', tamanho.toString());
 
     return this.httpClient.get<PageDTO>(this.API, {params})
-      .pipe(first(), delay(2000));
+      .pipe(first(), delay(1000));
   }
 }

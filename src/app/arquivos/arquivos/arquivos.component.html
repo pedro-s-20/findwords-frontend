@@ -1,6 +1,6 @@
 <mat-card>
   <mat-card-content class="table-items">
-    <div [ngClass]="{ 'ocultar-elemento': !isLoading }">
+    <div class="spinner" [ngClass]="{ 'ocultar-elemento': !isLoading }">
       <mat-spinner></mat-spinner>
     </div>
     <div [ngClass]="{ 'ocultar-elemento': isLoading }">

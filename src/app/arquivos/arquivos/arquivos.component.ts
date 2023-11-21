@@ -45,22 +45,7 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
       )
       .subscribe();
   }
-/*
-  handlePageEvent(event: any) {
-    this.isLoading = true;
-    this.arquivosService.list(event.pageIndex, this.paginator?.pageSize ?? 5).subscribe({
-      next: (resp) => {
-        this.documentos = new MatTableDataSource(resp.elementos);
-        this.isLoading = false;
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.log(error);
-        this.isLoading = false;
-      }
-    })
-  }
-*/
+
   ngOnInit(): void {
     this.carregarTodosDocumentos();
   }
