@@ -4,6 +4,57 @@
   font-size: 54px;
 }
 
-.example-container mat-form-field + mat-form-field {
-  margin-left: 8px;
+.boolean-input-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.boolean-card-title{
+  text-align: center;
+}
+
+.boolean-input-itens mat-form-field + mat-form-field {
+  margin-left: 4px;
+}
+
+.icon-upload{
+  padding-left: 12px;
+}
+
+.icon-add-term{
+  padding-left: 10px;
+}
+
+.button-term{
+  margin-left: 4px;
+}
+
+[mat-raised-button][id="add-term"] {
+  background-color: lightgreen;
+  color: green;
+}
+
+.termos-barra{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.upload-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card{
+  width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px
 }

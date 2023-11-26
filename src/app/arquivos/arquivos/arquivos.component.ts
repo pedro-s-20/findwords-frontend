@@ -1,12 +1,12 @@
 import { DocumentacaoDTO, PageDTO } from './../models/documentacao-dto';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { finalize, tap } from 'rxjs';
 
-import { ArquivosService } from '../services/arquivos.service';
-import { AppMaterialModule } from '../shared/app-material/app-material.module';
+import { ArquivosService } from '../../services/arquivos.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AppMaterialModule } from '../../shared/app-material/app-material.module';
 
 @Component({
   selector: 'app-arquivos',

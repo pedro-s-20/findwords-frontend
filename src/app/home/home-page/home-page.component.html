@@ -2,22 +2,102 @@
   <span class="toolbar-title">FindWords</span>
 </mat-toolbar>
 
-<div class="example-container">
-  <mat-form-field hintLabel="Somente uma palavra por campo">
-    <mat-label>Digite uma palavra</mat-label>
-    <input matInput #input maxlength="20" placeholder="Ex. árvore">
-    <mat-hint align="end">{{input.value.length}}/20</mat-hint>
-  </mat-form-field>
+<div class="upload-container">
+  <mat-card>
+    <mat-card-content class="card">
+      <span>Clique no botão abaixo para fazer upload de arquivos</span>
 
-  <mat-form-field>
-    <mat-label>E | OU | NÃO</mat-label>
-    <mat-select>
-      <mat-option value="option">Option</mat-option>
-    </mat-select>
-    <mat-hint align="end">Escolha um operador lógico</mat-hint>
-  </mat-form-field>
-
+      <button
+        type="file"
+        (click)="onUploadArquivo($event)"
+        mat-raised-button
+        color="primary"
+      >
+        <mat-icon
+          class="icon-upload"
+          aria-label="Subir arquivo"
+          fontIcon="upload"
+        ></mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<!-- <button mat-raised-button color="accent">Basic</button> -->
-<app-arquivos></app-arquivos>
+<div class="boolean-input-container">
+  <mat-card>
+    <mat-card-content class="card">
+      <span>Digite os termos desejados (somente uma palavra por campo)</span>
+      <form>
+        <div
+          class="boolean-input-itens"
+          *ngFor="let repeticao of repeticoes; let i = index"
+        >
+          <mat-form-field>
+            <mat-label>Digite uma palavra</mat-label>
+            <input matInput #input maxlength="20" placeholder="Ex. árvore" />
+            <mat-hint align="end">{{ input.value.length }}/20</mat-hint>
+          </mat-form-field>
+
+          <ng-container
+            *ngIf="repeticoes.length > 1 && repeticao != repeticoes.length"
+          >
+            <mat-form-field>
+              <mat-label>Termo lógico</mat-label>
+              <mat-select>
+                <mat-option value="AND">E</mat-option>
+                <mat-option value="OR">OU</mat-option>
+                <mat-option value="NOT">E NÃO</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+        </div>
+        <div class="termos-barra">
+          <ng-container *ngIf="repeticoes.length < 5">
+            <button
+              type="button"
+              class="button-term"
+              mat-raised-button
+              id="add-term"
+              (click)="onAddTerm()"
+            >
+              <mat-icon
+                class="icon-add-term"
+                aria-label="Adicionar termo"
+                fontIcon="add"
+              ></mat-icon>
+            </button>
+          </ng-container>
+          <ng-container *ngIf="repeticoes.length > 1">
+            <button
+              class="button-term"
+              type="button"
+              mat-raised-button
+              color="warn"
+              (click)="onRemoveTerm()"
+            >
+              <mat-icon
+                class="icon-add-term"
+                aria-label="Remover termo"
+                fontIcon="remove"
+              ></mat-icon>
+            </button>
+          </ng-container>
+          <button
+            class="button-term"
+            (click)="submit()"
+            mat-raised-button
+            color="primary"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<mat-card>
+  <mat-card-content>
+    <app-arquivos></app-arquivos>
+  </mat-card-content>
+</mat-card>

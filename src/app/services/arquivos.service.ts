@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay, first } from 'rxjs';
 
-import { PageDTO } from '../models/documentacao-dto';
+import { PageDTO } from '../arquivos/models/documentacao-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,13 @@ export class ArquivosService {
 
     return this.httpClient.get<PageDTO>(this.API, {params})
       .pipe(first(), delay(1000));
+  }
+
+  uploadArchives(formData: FormData): Observable<HttpEvent<string[]>>{
+    return this.httpClient.post<string[]>(`${this.API}`, formData, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 
   downloadSingleArchive(id: number) {

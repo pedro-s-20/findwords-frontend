@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
+@import "@angular/material/prebuilt-themes/pink-bluegrey.css";
 @include mat.core();
+
+mat.$theme-ignore-duplication-warnings: true;
 
 $custom-app-primary: mat.define-palette(mat.$deep-orange-palette, 700);
 $custom-app-secondary: mat.define-palette(mat.$cyan-palette, 600);
