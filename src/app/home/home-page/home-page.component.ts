@@ -20,10 +20,9 @@ import { TermoDTO } from '../../arquivos/models/termo-dto';
 export class HomePageComponent {
   repeticoes: number[] = [0];
   pesquisaForm: FormGroup;
-  readonly tipoPesquisaCoparative: TipoPesquisaEnum = TipoPesquisaEnum.TODOS_ITENS;
-  tipoPesquisa: TipoPesquisaEnum = TipoPesquisaEnum.BOOLEANA;
-  tituloTabela: string = this.tipoPesquisa == TipoPesquisaEnum.TODOS_ITENS ?
-                          "Todos os itens cadastrados" : "Itens da pesquisa";
+  tipoPesquisaTotal: TipoPesquisaEnum = TipoPesquisaEnum.TODOS_ITENS;
+  tipoPesquisaBooleana: TipoPesquisaEnum = TipoPesquisaEnum.BOOLEANA;
+  tipoPesquisaEscolhido: TipoPesquisaEnum = TipoPesquisaEnum.TODOS_ITENS;
   termosPesquisaBooleana: TermoDTO[] = [];
 
   constructor(private arquivosService: ArquivosService) {
@@ -58,7 +57,7 @@ export class HomePageComponent {
   }
 
   onCleanSearch(){
-    this.tipoPesquisa = TipoPesquisaEnum.TODOS_ITENS;
+    this.tipoPesquisaEscolhido = TipoPesquisaEnum.TODOS_ITENS;
     this.termosPesquisaBooleana = [];
   }
 

@@ -60,8 +60,19 @@
   gap: 10px
 }
 
-.titulo-tabela {
+.cabecalho-tabela {
   text-align: center;
   margin-bottom: 15px;
-  gap: 20px
+  gap: 20px;
+}
+
+.titulo-tabela{
+  background-color: #87dce7;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.button-clear-search{
+  margin-left: 200px;
 }

@@ -93,26 +93,31 @@
 
 <mat-card>
   <mat-card-content>
-    <div class="titulo-tabela">
-      <span>{{ tituloTabela }}</span>
-      <ng-container *ngIf="tipoPesquisa != tipoPesquisaCoparative">
-        <button
-          class="button-term"
-          type="submit"
-          mat-raised-button
-          color="accent"
-          (click)="onCleanSearch()"
-        >
-          Limpar pesquisa
-        </button>
-      </ng-container>
-    </div>
-
-    <div>
-      <app-arquivos
-        [tipoPesquisa]="this.tipoPesquisa"
-        [termosPesquisaBooleana]="termosPesquisaBooleana"
-      ></app-arquivos>
-    </div>
+    <ng-container
+      *ngIf="tipoPesquisaEscolhido == tipoPesquisaTotal; else pesquisaBooleana"
+    >
+      <div class="cabecalho-tabela">
+        <span class="titulo-tabela">Todos os itens</span>
+      </div>
+      <app-arquivos [tipoPesquisa]="tipoPesquisaTotal"></app-arquivos>
+    </ng-container>
   </mat-card-content>
 </mat-card>
+
+<ng-template #pesquisaBooleana>
+  <div class="cabecalho-tabela">
+    <span class="titulo-tabela">Resultado da pesquisa</span>
+    <button
+      class="button-clear-search"
+      mat-raised-button
+      color="accent"
+      (click)="onCleanSearch()"
+    >
+      Limpar
+    </button>
+  </div>
+  <app-arquivos
+    [tipoPesquisa]="tipoPesquisaBooleana"
+    [termosPesquisaBooleana]="termosPesquisaBooleana"
+  ></app-arquivos>
+</ng-template>
