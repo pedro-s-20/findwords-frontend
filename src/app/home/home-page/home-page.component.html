@@ -7,12 +7,7 @@
     <mat-card-content class="card">
       <span>Clique no botão abaixo para fazer upload de arquivos</span>
 
-      <button
-        type="file"
-        (click)="onUploadArquivo($event)"
-        mat-raised-button
-        color="primary"
-      >
+      <button type="file" mat-raised-button color="primary">
         <mat-icon
           class="icon-upload"
           aria-label="Subir arquivo"
@@ -98,6 +93,26 @@
 
 <mat-card>
   <mat-card-content>
-    <app-arquivos></app-arquivos>
+    <div class="titulo-tabela">
+      <span>{{ tituloTabela }}</span>
+      <ng-container *ngIf="tipoPesquisa != tipoPesquisaCoparative">
+        <button
+          class="button-term"
+          type="submit"
+          mat-raised-button
+          color="accent"
+          (click)="onCleanSearch()"
+        >
+          Limpar pesquisa
+        </button>
+      </ng-container>
+    </div>
+
+    <div>
+      <app-arquivos
+        [tipoPesquisa]="this.tipoPesquisa"
+        [termosPesquisaBooleana]="termosPesquisaBooleana"
+      ></app-arquivos>
+    </div>
   </mat-card-content>
 </mat-card>

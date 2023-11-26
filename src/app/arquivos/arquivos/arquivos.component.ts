@@ -1,12 +1,14 @@
 import { DocumentacaoDTO, PageDTO } from './../models/documentacao-dto';
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { finalize, tap } from 'rxjs';
 
 import { ArquivosService } from '../../services/arquivos.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+import { TipoPesquisaEnum } from '../models/tipo-pesquisa-enum';
+import { TermoDTO } from '../models/termo-dto';
 
 @Component({
   selector: 'app-arquivos',
@@ -19,6 +21,8 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
   page: PageDTO | undefined;
   documentos: MatTableDataSource<DocumentacaoDTO> = new MatTableDataSource();
   isLoading: boolean = false;
+  @Input() tipoPesquisa!: TipoPesquisaEnum | TipoPesquisaEnum.TODOS_ITENS;
+  @Input() termosPesquisaBooleana!: TermoDTO[];
 
   displayedColumns = ['id', 'nome', 'download'];
 
@@ -28,10 +32,17 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.page
+    if(this.tipoPesquisa == TipoPesquisaEnum.TODOS_ITENS){
+      this.paginator.page
       .pipe(
         tap(() => this.carregarTodosDocumentos())
       ).subscribe();
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.BOOLEANA){
+      this.paginator.page
+      .pipe(
+        tap(() => this.pesquisarPorTermosBooleanos(this.termosPesquisaBooleana))
+      ).subscribe();
+    }
   }
 
   carregarTodosDocumentos() {
@@ -46,8 +57,24 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  pesquisarPorTermosBooleanos(termos: TermoDTO[]): void {
+    this.isLoading = true;
+    this.arquivosService.booleanSearch(this.paginator?.pageIndex ?? 0,
+      this.paginator?.pageSize ?? 5, termos)
+      .pipe(
+        tap(page => this.page = page),
+        tap(page => this.documentos = new MatTableDataSource(page.elementos)),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe();
+  }
+
   ngOnInit(): void {
-    this.carregarTodosDocumentos();
+    if(this.tipoPesquisa == TipoPesquisaEnum.TODOS_ITENS){
+      this.carregarTodosDocumentos();
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.BOOLEANA){
+      this.pesquisarPorTermosBooleanos(this.termosPesquisaBooleana);
+    }
   }
 
   onDownloadSingleArchive(id: number, nomeArquivo: string) {

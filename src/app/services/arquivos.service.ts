@@ -1,3 +1,4 @@
+import { TermoDTO } from './../arquivos/models/termo-dto';
 import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, delay, first } from 'rxjs';
@@ -20,6 +21,14 @@ export class ArquivosService {
 
     return this.httpClient.get<PageDTO>(this.API, {params})
       .pipe(first(), delay(1000));
+  }
+
+  booleanSearch(pagina: number, tamanho: number, termos: TermoDTO[]): Observable<PageDTO> {
+    const params = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('tamanho', tamanho.toString());
+
+    return this.httpClient.post<PageDTO>(`${this.API}/boolean-search`, termos, { params });
   }
 
   uploadArchives(formData: FormData): Observable<HttpEvent<string[]>>{
