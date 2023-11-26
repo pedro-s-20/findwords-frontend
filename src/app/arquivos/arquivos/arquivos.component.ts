@@ -50,4 +50,11 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
     this.carregarTodosDocumentos();
   }
 
+  onDownloadSingleArchive(id: number, nomeArquivo: string) {
+    this.arquivosService.downloadSingleArchive(id)
+    .subscribe((res: any) => {
+      this.arquivosService.handleFile(res, nomeArquivo)
+    });
+  }
+
 }

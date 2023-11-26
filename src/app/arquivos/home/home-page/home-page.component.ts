@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { ArquivosComponent } from '../../arquivos/arquivos/arquivos.component';
 import { AppMaterialModule } from '../../shared/app-material/app-material.module';
+import { ArquivosComponent } from '../../arquivos/arquivos.component';
 
 
 @Component({
