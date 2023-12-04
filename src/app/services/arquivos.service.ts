@@ -31,8 +31,24 @@ export class ArquivosService {
     return this.httpClient.post<PageDTO>(`${this.API}/boolean-search`, termos, { params });
   }
 
-  uploadArchives(formData: FormData): Observable<HttpEvent<string[]>>{
-    return this.httpClient.post<string[]>(`${this.API}`, formData, {
+  vetorialSearch(pagina: number, tamanho: number, pesquisa: string): Observable<PageDTO> {
+    const params = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('tamanho', tamanho.toString());
+
+    return this.httpClient.post<PageDTO>(`${this.API}/vetorial-ranking-search`, pesquisa, { params });
+  }
+
+  probabilisticSearch(pagina: number, tamanho: number, pesquisa: string): Observable<PageDTO> {
+    const params = new HttpParams()
+      .set('pagina', pagina.toString())
+      .set('tamanho', tamanho.toString());
+
+    return this.httpClient.post<PageDTO>(`${this.API}/probabilistic-ranking-search`, pesquisa, { params });
+  }
+
+  uploadArchives(files: FormData): Observable<HttpEvent<string[]>>{
+    return this.httpClient.post<string[]>(`${this.API}`, files, {
       reportProgress: true,
       observe: 'events'
     });

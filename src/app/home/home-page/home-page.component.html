@@ -7,20 +7,86 @@
     <mat-card-content class="card">
       <span>Clique no botão abaixo para fazer upload de arquivos</span>
 
-      <button type="file" mat-raised-button color="primary">
-        <mat-icon
-          class="icon-upload"
-          aria-label="Subir arquivo"
-          fontIcon="upload"
-        ></mat-icon>
-      </button>
+      <form enctype="multipart/form-data">
+        <fieldset>
+          <div class="form-group">
+            <div>
+              <input
+                type="file"
+                (change)="onUploadFiles($event.target.files)"
+                name="files"
+                multiple
+                class="form-control"
+              />
+            </div>
+          </div>
+        </fieldset>
+      </form>
     </mat-card-content>
   </mat-card>
 </div>
 
-<div class="boolean-input-container">
+<div class="type-search-container">
   <mat-card>
     <mat-card-content class="card">
+      <span class="titulo-tabela">Vetorial</span>
+
+      <form>
+        <mat-form-field>
+          <mat-label>Digite os termos aqui</mat-label>
+          <input
+            matInput
+            placeholder="Digite algo"
+            [formControl]="vetorialForm"
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="pesquisaVetorial()"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="type-search-container">
+  <mat-card>
+    <mat-card-content class="card">
+      <span class="titulo-tabela">Probabilístico</span>
+
+      <form>
+        <mat-form-field>
+          <mat-label>Digite os termos aqui</mat-label>
+          <input
+            matInput
+            placeholder="Digite algo"
+            [(ngModel)]="valorDoInputProbabilistico"
+            name="campoDeEntrada"
+          />
+        </mat-form-field>
+        <div>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="pesquisaProbabilistica()"
+          >
+            Pesquisar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="type-search-container">
+  <mat-card>
+    <mat-card-content class="card">
+      <span class="titulo-tabela">Booleano</span>
       <span>Digite os termos desejados (somente uma palavra por campo)</span>
       <form>
         <div
@@ -55,11 +121,7 @@
               id="add-term"
               (click)="onAddTerm()"
             >
-              <mat-icon
-                class="icon-add-term"
-                aria-label="Adicionar termo"
-                fontIcon="add"
-              ></mat-icon>
+              +
             </button>
           </ng-container>
           <ng-container *ngIf="repeticoes.length > 1">
@@ -70,19 +132,10 @@
               color="warn"
               (click)="onRemoveTerm()"
             >
-              <mat-icon
-                class="icon-add-term"
-                aria-label="Remover termo"
-                fontIcon="remove"
-              ></mat-icon>
+              -
             </button>
           </ng-container>
-          <button
-            class="button-term"
-            (click)="submit()"
-            mat-raised-button
-            color="primary"
-          >
+          <button class="button-term" mat-raised-button color="primary">
             Pesquisar
           </button>
         </div>
@@ -97,7 +150,9 @@
       *ngIf="tipoPesquisaEscolhido == tipoPesquisaTotal; else pesquisaBooleana"
     >
       <div class="cabecalho-tabela">
-        <span class="titulo-tabela">Todos os itens</span>
+        <span style="font-weight: bold" class="titulo-tabela"
+          >Todos os itens</span
+        >
       </div>
       <app-arquivos [tipoPesquisa]="tipoPesquisaTotal"></app-arquivos>
     </ng-container>
@@ -105,8 +160,64 @@
 </mat-card>
 
 <ng-template #pesquisaBooleana>
+  <ng-container
+    *ngIf="
+      tipoPesquisaEscolhido == tipoPesquisaBooleana;
+      else tipoPesquisaVetorial
+    "
+  >
+    <div class="cabecalho-tabela">
+      <span style="font-weight: bold" class="titulo-tabela"
+        >Resultado da pesquisa booleana</span
+      >
+      <button
+        class="button-clear-search"
+        mat-raised-button
+        color="accent"
+        (click)="onCleanSearch()"
+      >
+        Limpar
+      </button>
+    </div>
+    <app-arquivos
+      [tipoPesquisa]="tipoPesquisaBooleana"
+      [termosPesquisaBooleana]="termosPesquisaBooleana"
+    ></app-arquivos>
+  </ng-container>
+</ng-template>
+
+<ng-template #pesquisaVetorial>
+  <ng-container
+    *ngIf="
+      tipoPesquisaEscolhido == tipoPesquisaVetorial;
+      else pesquisaProbabilistica
+    "
+  >
+    <div class="cabecalho-tabela">
+      <span style="font-weight: bold" class="titulo-tabela"
+        >Resultado da pesquisa vetorial</span
+      >
+      <button
+        class="button-clear-search"
+        mat-raised-button
+        color="accent"
+        (click)="onCleanSearch()"
+      >
+        Limpar
+      </button>
+    </div>
+    <app-arquivos
+      [tipoPesquisa]="tipoPesquisaVetorial"
+      [stringPesquisaVetorial]="valorDoInputVetorial"
+    ></app-arquivos>
+  </ng-container>
+</ng-template>
+
+<ng-template #pesquisaProbabilistica>
   <div class="cabecalho-tabela">
-    <span class="titulo-tabela">Resultado da pesquisa</span>
+    <span style="font-weight: bold" class="titulo-tabela"
+      >Resultado da pesquisa probabilística</span
+    >
     <button
       class="button-clear-search"
       mat-raised-button
@@ -117,7 +228,7 @@
     </button>
   </div>
   <app-arquivos
-    [tipoPesquisa]="tipoPesquisaBooleana"
-    [termosPesquisaBooleana]="termosPesquisaBooleana"
+    [tipoPesquisa]="tipoPesquisaProbabilistica"
+    [stringPesquisaProbabilistica]="valorDoInputProbabilistico"
   ></app-arquivos>
 </ng-template>

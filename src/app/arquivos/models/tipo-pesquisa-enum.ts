@@ -1,4 +1,6 @@
 export const enum TipoPesquisaEnum {
   TODOS_ITENS,
-  BOOLEANA
+  BOOLEANA,
+  VETORIAL,
+  PROBABILISTICA
 }

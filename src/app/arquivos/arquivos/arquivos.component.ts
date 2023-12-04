@@ -23,6 +23,8 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
   isLoading: boolean = false;
   @Input() tipoPesquisa!: TipoPesquisaEnum | TipoPesquisaEnum.TODOS_ITENS;
   @Input() termosPesquisaBooleana!: TermoDTO[];
+  @Input() stringPesquisaVetorial!: string;
+  @Input() stringPesquisaProbabilistica!: string;
 
   displayedColumns = ['id', 'nome', 'download'];
 
@@ -41,6 +43,16 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
       this.paginator.page
       .pipe(
         tap(() => this.pesquisarPorTermosBooleanos(this.termosPesquisaBooleana))
+      ).subscribe();
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.VETORIAL){
+      this.paginator.page
+      .pipe(
+        tap(() => this.pesquisarPorModeloVetorial(this.stringPesquisaVetorial))
+      ).subscribe();
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.PROBABILISTICA){
+      this.paginator.page
+      .pipe(
+        tap(() => this.pesquisarPorModeloProbabilistico(this.stringPesquisaProbabilistica))
       ).subscribe();
     }
   }
@@ -69,11 +81,40 @@ export class ArquivosComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  pesquisarPorModeloVetorial(pesquisa: string): void {
+    this.isLoading = true;
+    this.arquivosService.vetorialSearch(this.paginator?.pageIndex ?? 0,
+      this.paginator?.pageSize ?? 5, pesquisa)
+      .pipe(
+        tap(page => this.page = page),
+        tap(page => this.documentos = new MatTableDataSource(page.elementos)),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe();
+  }
+
+  pesquisarPorModeloProbabilistico(pesquisa: string): void {
+    this.isLoading = true;
+    this.arquivosService.probabilisticSearch(this.paginator?.pageIndex ?? 0,
+      this.paginator?.pageSize ?? 5, pesquisa)
+      .pipe(
+        tap(page => this.page = page),
+        tap(page => this.documentos = new MatTableDataSource(page.elementos)),
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe();
+  }
+
+
   ngOnInit(): void {
     if(this.tipoPesquisa == TipoPesquisaEnum.TODOS_ITENS){
       this.carregarTodosDocumentos();
     }else if(this.tipoPesquisa == TipoPesquisaEnum.BOOLEANA){
       this.pesquisarPorTermosBooleanos(this.termosPesquisaBooleana);
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.VETORIAL){
+      this.pesquisarPorModeloVetorial(this.stringPesquisaVetorial);
+    }else if(this.tipoPesquisa == TipoPesquisaEnum.PROBABILISTICA){
+      this.pesquisarPorModeloProbabilistico(this.stringPesquisaProbabilistica);
     }
   }
 
